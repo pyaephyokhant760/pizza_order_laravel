@@ -22,7 +22,10 @@
                             @csrf
                             <div class="form-group">
                                 <label class="control-label mb-1">Name</label>
-                                <input id="cc-pament" name="categoryName" type="text" class="form-control" aria-required="true" aria-invalid="false" placeholder="Seafood...">
+                                <input id="cc-pament" name="categoryName" type="text" class="form-control @error('categoryName') is-invalid @enderror" value="{{ old('categoryName')}}" aria-required="true" aria-invalid="false" placeholder="Seafood...">
+                                @error('categoryName')
+                                    <small class="invalid-feedback">{{ $message }}</small>
+                                @enderror
                             </div>
 
                             <div>

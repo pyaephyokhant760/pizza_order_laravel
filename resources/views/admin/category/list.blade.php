@@ -26,27 +26,58 @@
                         </button>
                     </div>
                 </div>
-                <div class="table-responsive table-responsive-data2">
-                    <table class="table table-data2">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Category Name</th>
-                                <th>Create Date</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="tr-shadow">
-                                <td>1</td>
-                                <td>Lori Lynch</td>
-                                <td>2018-09-27 02:12</td>
-                                <td>
-                                    CRUD
+
+                {{-- create success --}}
+                @if (session('categorySuccess'))
+                <div class="col-4 offset-8">
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <i class="fa-solid fa-check"></i>{{ session('categorySuccess')}}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                </div>
+                @endif
+
+                {{-- delete success --}}
+                @if (session('deleteSuccess'))
+                <div class="col-4 offset-8">
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <i class="fa-solid fa-check"></i>{{ session('deleteSuccess')}}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                </div>
+                @endif
+
+                {{-- Search box --}}
+                                <tr class="tr-shadow">
+                                    <td>{{ $category->category_id}}</td>
+                                    <td class="col-5">{{ $category->name}}</td>
+                                    <td>{{ $category->created_at->format('j-F-y')}}</td>
+                                    <td>
+                                        <div class="table-data-feature">
+                                            <button class="item" data-toggle="tooltip" data-placement="top" title="Send">
+                                                <i class="zmdi zmdi-mail-send"></i>
+                                            </button>
+                                            <button class="item" data-toggle="tooltip" data-placement="top" title="Edit">
+                                                <i class="zmdi zmdi-edit"></i>
+                                            </button>
+                                           <a href="{{ route('delete',$category->category_id)}}">
+                                                <button class="item" data-toggle="tooltip" data-placement="top" title="Delete">
+                                                    <i class="zmdi zmdi-delete"></i>
+                                                </button>
+                                           </a>
+                                            <button class="item" data-toggle="tooltip" data-placement="top" title="More">
+                                                <i class="zmdi zmdi-more"></i>
+                                            </button>
+                                        </div>
                                 </td>
+                            @endforeach
                         </tbody>
                     </table>
+                    {{ $categories->links()}}
                 </div>
+                @else
+                <h3 class="text-secondary text-center mt-5">There is no order</h3>
+                @endif
                 <!-- END DATA TABLE -->
             </div>
         </div>

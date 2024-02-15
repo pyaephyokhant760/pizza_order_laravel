@@ -29,6 +29,7 @@ Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified',])
         Route::get('/list',[CategoryController::class,'list'])->name('category#list');
         Route::get('/create',[CategoryController::class,'create'])->name('admin#page');
         Route::post('recreate',[CategoryController::class,'recreate'])->name('re#create');
+        Route::get('/delete/{id}',[CategoryController::class,'delete'])->name('delete');
     });
     // user
     Route::group(['prefix' => 'user','middleware' => 'user_auth'],function() {
