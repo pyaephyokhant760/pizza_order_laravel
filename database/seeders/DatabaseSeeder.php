@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Pyae Phyo Khant',
             'email' => 'pyaephyokhant2020dc@gmail.com',
             'phone' => '09760892129',
+            'gender' => 'male',
             'address' => 'Kume',
             'role' => 'admin',
             'password' => Hash::make('ppk12345')

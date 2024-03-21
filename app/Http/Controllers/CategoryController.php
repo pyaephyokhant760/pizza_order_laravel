@@ -6,11 +6,15 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
+
 class CategoryController extends Controller
 {
     // list page
     public function list() {
-        $categories = Category::orderBy('category_id','desc')->paginate(4);
+        $categories = Category::when(request('search'),function($query) {
+            $query->where('name','like','%'.request('search').'%');
+        })->orderBy('id','desc')->paginate(4);
+        $categories->appends(request()->all());
         return view('admin.category.list',compact('categories'));
     }
 
@@ -29,10 +33,23 @@ class CategoryController extends Controller
 
     // Delete
     public function delete($id) {
-       Category::where('category_id',$id)->delete();
+       Category::where('id',$id)->delete();
        return back()->with(['deleteSuccess' => 'DeleteSuccess']);
     }
 
+    // edit page
+    public function edit($id) {
+        $category = Category::where('id',$id)->first();
+        return view('admin.category.edit',compact('category'));
+    }
+
+    // update page
+    public function update(Request $request,$id) {
+        $this->categoryValidator($request);
+        $data = $this->requestCategoryData($request);
+        Category::where('id',$id)->update($data);
+        return redirect()->route('category#list');
+    }
 
 
 
@@ -40,13 +57,13 @@ class CategoryController extends Controller
     // categoryValidator
     private function categoryValidator($request) {
         Validator::make($request->all(),[
-            'categoryName' => 'required|unique:categories,name'
+            'categoryName' => 'required|min:5|unique:categories,id,name',
         ])->validate();
     }
-
     // requestCategoryData
     private function requestCategoryData($request){
         return[
+            'id' => $request->category_id,
             'name' => $request->categoryName
         ];
     }

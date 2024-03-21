@@ -9,5 +9,5 @@ class Ranting extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['ranting_id','user_id','product_id','rating_count','message'];
+    protected $fillable = ['user_id','product_id','rating_count','message'];
 }

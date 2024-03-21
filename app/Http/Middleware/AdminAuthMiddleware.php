@@ -16,8 +16,16 @@ class AdminAuthMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::user()->role == 'user') {
-            abort('404');
+        // dd(route('login#page'));
+        // dd(url()->current());
+
+        if (!empty(Auth::user())) {
+            if (url()->current() == route('login#page') || url()->current() == route('register#page')) {
+                return back();
+            }
+            if (Auth::user()->role == 'user') {
+                return back();
+            }
         }
         return $next($request);
     }

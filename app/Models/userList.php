@@ -5,9 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Product extends Model
+class userList extends Model
 {
     use HasFactory;
-
-    protected $fillable = ['category_id','name','description','image','price','waiting_time','view_count'];
+    protected $fillable = ['user_id','product_id','qty','total','order_code'];
 }

@@ -52,7 +52,7 @@
                         <h5 class="text-secondary">Search Key : <span class="text-danger">{{ request('search')}}</span></h5>
                     </div>
                     <div class="col-4 offset-4 my-2 mb-3">
-                        <form class="form-header" action="{{ route('category#list')}}" method="GET">
+                        <form class="form-header" action="{{ route('admin#listPage')}}" method="GET">
                             @csrf
                             <input class="au-input au-input--xl" type="text" name="search" placeholder="Search for datas &amp; reports..." value="{{ request('search')}}"/>
                             <button class="au-btn--submit" type="submit">
@@ -64,44 +64,54 @@
                 {{-- total show --}}
                 <div class="row">
                     <div class="col-5 my-2">
-                        <h3> Total - {{ $categories->total()}}</h3>
+                        <h3> Total - {{ $user->total()}}</h3>
                     </div>
                 </div>
-                @if (count($categories) != 0)
                     <div>
                         <table class="table table-data2">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Category Name</th>
-                                    <th>Created Date</th>
+                                    <th>Image</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Gender</th>
+                                    <th>Phone</th>
+                                    <th>Address</th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($categories as $category)
+                                @foreach ($user as $u)
                                     <tr class="tr-shadow">
-                                        <td>{{ $category->id}}</td>
-                                        <td class="col-5">{{ $category->name}}</td>
-                                        <td>{{ $category->created_at->format('j-F-y')}}</td>
+
+                                        <td class="col-1">
+                                            @if ($u->image == null)
+                                            <img src="{{ asset('image/default_image.jpg')}}" alt="">
+                                        @else
+                                            <img src="{{ asset('storage/'.$u->image)}}" alt="">
+                                        @endif
+                                        </td>
+                                        <td class="col-4">{{ $u->name}}</td>
+                                        <td class="col-2">{{$u->email}}</td>
+                                        <td class="col-1">{{$u->gender}}</td>
+                                        <td>{{$u->phone}}</td>
+                                        <td>{{ $u->address}}</td>
                                         <td>
                                             <div class="table-data-feature">
-                                                <button class="item" data-toggle="tooltip" data-placement="top" title="Send">
-                                                    <i class="zmdi zmdi-mail-send"></i>
-                                                </button>
-                                                <a href="{{ route('edit#page',$category->id)}}">
-                                                    <button class="item" data-toggle="tooltip" data-placement="top" title="Edit">
-                                                        <i class="zmdi zmdi-edit"></i>
-                                                    </button>
-                                                </a>
-                                                <a href="{{ route('delete',$category->id)}}">
-                                                    <button class="item" data-toggle="tooltip" data-placement="top" title="Delete">
-                                                        <i class="zmdi zmdi-delete"></i>
-                                                    </button>
-                                                </a>
-                                                <button class="item" data-toggle="tooltip" data-placement="top" title="More">
-                                                    <i class="zmdi zmdi-more"></i>
-                                                </button>
+                                                @if (Auth::user()->id == $u->id)
+
+                                                @else
+                                                    <a href="{{ route('admin#deletePage',$u->id)}}">
+                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Delete">
+                                                            <i class="zmdi zmdi-delete"></i>
+                                                        </button>
+                                                    </a>
+                                                    <a href="{{ route('admin#chagePage',$u->id)}}">
+                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Change">
+                                                            <i class="fa-solid fa-person-circle-minus me-5"></i>
+                                                        </button>
+                                                    </a>
+                                                @endif
                                             </div>
                                         </td>
                                     </tr>
@@ -109,13 +119,10 @@
                             </tbody>
                         </table>
                     </div>
-                @else
-                <h3 class="text-secondary text-center mt-5">There is no pizza</h3>
-                @endif
                 <!-- END DATA TABLE -->
             </div>
             {{-- {{ $categories->appends(request()->query())->links()}} --}}
-            {{ $categories->links()}}
+            {{ $user->links()}}
         </div>
     </div>
 </div>
