@@ -8,14 +8,6 @@
         <div class="container-fluid">
             <div class="col-md-12">
                 <!-- DATA TABLE -->
-                <div class="table-data__tool">
-                    <div class="table-data__tool-left">
-                        <div class="overview-wrap">
-                            <h2 class="title-1 text-decoration-none">User List</h2>
-
-                        </div>
-                    </div>
-                </div>
                 {{-- search box --}}
                 <div class="row">
                     <div class="col-3 row">
@@ -29,7 +21,16 @@
                                 <i class="zmdi zmdi-search"></i>
                             </button>
                         </form>
+                        <div class="table-data__tool-right pt-5">
+                        <a href="">
+                            <button class="au-btn au-btn-icon au-btn--green au-btn--small">
+                                <i class="zmdi zmdi-plus"></i>add User
+                            </button>
+                        </a>
+                       
                     </div>
+                    </div>
+                    
                 </div>
                 {{-- total show --}}
                 <div class="row">

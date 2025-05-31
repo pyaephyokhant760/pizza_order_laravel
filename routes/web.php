@@ -43,6 +43,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/delete/{id}',[CategoryController::class,'delete'])->name('delete');
             Route::get('edit/{id}',[CategoryController::class,'edit'])->name('edit#page');
             Route::post('update/{id}',[CategoryController::class,'update'])->name('update#page');
+            Route::post('uploadCsv',[CategoryController::class,'uploadCsv'])->name('upload#csv');
         });
         // admin account
         Route::prefix('admin')->group(function() {
