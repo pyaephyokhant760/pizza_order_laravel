@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use PhpOffice\PhpSpreadsheet\IOFactory;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -52,6 +53,16 @@ class CategoryController extends Controller
     }
 
 
+    // uploadCsv
+    public function uploadCsv(Request $request) {
+        if($request->file('csv')) {
+            if ($_FILES["csv"]["size"] > 0) {
+                $inputFileName =  $request->file('csv');
+                $spreadsheet = IOFactory::load($inputFileName);
+                dd($spreadsheet->toArray());
+            }
+        }
+    }
 
 
     // categoryValidator

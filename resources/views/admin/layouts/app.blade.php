@@ -46,14 +46,14 @@
     <div class="page-wrapper">
         <!-- MENU SIDEBAR-->
         <aside class="menu-sidebar d-none d-lg-block">
-            <div class="logo">
-                <a href="#">
-                    <img src="{{ asset('admin/images/icon/logo.png')}}" alt="Cool Admin" />
-                </a>
-            </div>
             <div class="menu-sidebar__content js-scrollbar1">
                 <nav class="navbar-sidebar">
                     <ul class="list-unstyled navbar__list">
+                        <li class="active has-sub">
+                            <a class="js-arrow" href="{{ route('category#list')}}">
+                                <i class="fas fa-tachometer-alt"></i>Dashboard
+                            </a>
+                        </li>
                         <li class="active has-sub">
                             <a class="js-arrow" href="{{ route('category#list')}}">
                                 <i class="fas fa-tachometer-alt"></i>Category
@@ -88,10 +88,29 @@
                     <div class="container-fluid">
                         <div class="header-wrap">
                            <span class="form-header">
-                                <h3>Admin Dashboard Pannel</h3>
+                                @if(url()->current() == route('category#list'))
+                                    <h3 class="text-decoration-none">Category List</h3>
+                                @elseif(url()->current() == route('list#page'))
+                                    <h3 class="text-decoration-none">Product List</h3>
+                                @elseif(url()->current() == route('orderAdmin#page'))   
+                                    <h3 class="text-decoration-none">Order List</h3>
+                                @elseif(url()->current() == route('userList#page'))
+                                    <h3 class="text-decoration-none">User List</h3>
+                                @elseif(url()->current() == route('login#page'))
+                                    <h3 class="text-decoration-none">Change Password</h3>
+                                @elseif(url()->current() == route('login#page'))
+                                    <h3 class="text-decoration-none">Admin Detail</h3>
+                                @elseif(url()->current() == route('login#page'))
+                                    <h3 class="text-decoration-none">Admin List</h3>
+                                @else
+                                    <h3 class="text-decoration-none">Dashboard</h3>
+                                @endif
+                                {{-- <h3>Admin Dashboard Pannel</h3> --}}
                            </span>
+                           <button>admin</button>
                             <div class="header-button text-decoration-none">
                                 <div class="account-wrap">
+                                    
                                     <div class="account-item clearfix js-item-menu">
                                         <div class="image">
                                             @if (Auth::user()->image == null)
