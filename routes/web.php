@@ -1,15 +1,17 @@
 <?php
 
-use App\Models\Product;
-use Illuminate\Support\Facades\Route;
+use App\Helpers\HardwareHelper;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\LicenseController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\UserListController;
 use App\Http\Controllers\user\userController;
+use App\Http\Controllers\UserListController;
+use App\Models\Product;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,10 +31,14 @@ Route::middleware(['admin_auth'])->group(function() {
     Route::get('loginPage',[AuthController::class,'login'])->name('login#page');
     Route::get('registerPage',[AuthController::class,'register'])->name('register#page');
 });
+Route::get('/show-id', function () {
+    return HardwareHelper::getFingerprint();
+});
 Route::get('dashboard',[AuthController::class,'dashboard'])->name('dashboard');
 
-
-Route::middleware(['auth'])->group(function () {
+Route::get('/activate', [LicenseController::class, 'showActivatePage'])->name('activate.page');
+Route::post('/activate', [LicenseController::class, 'activate'])->name('license.activate');
+Route::middleware(['auth', 'license.guard'])->group(function () {
     // Admin
     Route::middleware(['admin_auth'])->group(function() {
         // CategoryController
@@ -122,3 +128,4 @@ Route::middleware(['auth'])->group(function () {
         });
     });
 });
+
