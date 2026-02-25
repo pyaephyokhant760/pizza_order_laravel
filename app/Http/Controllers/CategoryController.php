@@ -74,7 +74,6 @@ class CategoryController extends Controller
     // requestCategoryData
     private function requestCategoryData($request){
         return[
-            'id' => $request->category_id,
             'name' => $request->categoryName
         ];
     }
