@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: pizza_app
+    restart: unless-stopped
+    working_dir: /app
+    volumes:
+      - ./:/app
+    networks:
+      - pizza_network
+    depends_on:
+      - db
+
+  nginx:
+    image: nginx:alpine
+    container_name: pizza_nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - ./:/app
+      - ./docker/nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf:ro
+    networks:
+      - pizza_network
+    depends_on:
+      - app
+
+  db:
+    image: mysql:8.0
+    container_name: pizza_db
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE:-laravel}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-rootpassword}
+      MYSQL_USER: ${DB_USERNAME:-sail}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-rootpassword}
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - pizza_db_data:/var/lib/mysql
+    networks:
+      - pizza_network
+
+networks:
+  pizza_network:
+    driver: bridge
+
+volumes:
+  pizza_db_data:
+    driver: local
