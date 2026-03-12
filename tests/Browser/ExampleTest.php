@@ -5,6 +5,7 @@ namespace Tests\Browser;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
+use App\Models\User;
 
 class ExampleTest extends DuskTestCase
 {
@@ -13,11 +14,11 @@ class ExampleTest extends DuskTestCase
      */
     public function test_user_can_register_via_ui()
     {
-        $this->browse(function ($browser) {
+        $this->browse(function (Browser $browser) {
             $browser->visit('/registerPage')
                 ->waitFor('form', 5) // form က load ဖြစ်ဖို့ ခေတ္တစောင့်ပါ
-                ->type('input[name="name"]', 'John Doe')
-                ->type('input[name="email"]', 'john_dusk_test_' . time() . '@example.com')
+                ->type('input[name="name"]', 'Pyae')
+                ->type('input[name="email"]', 'pyaephyokhant2020dc@gmail.com')
                 ->type('input[name="phone"]', '0912345678')
                 ->select('gender', 'male')
                 ->type('input[name="address"]', '123 Main St')
@@ -26,7 +27,10 @@ class ExampleTest extends DuskTestCase
                 ->check('aggree')
                 ->press('button[type="submit"]') // register text အစား selector အသုံးပြုပါ
                 ->pause(2000)
-                ->assertPathIs('/user/home');
+                ->assertPathIs('/user/home')
+                ->assertAuthenticated();
+
+            
         });
     }
 }

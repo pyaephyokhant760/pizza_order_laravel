@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Repositories\ProductRepositoryInterface;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -79,3 +79,22 @@ class CategoryController extends Controller
     }
 
 }
+
+// class ProductController extends Controller {
+//     protected $productRepo;
+
+//     // မှတ်ချက် - ဤနေရာသည် Service Container အလုပ်လုပ်သော နေရာဖြစ်သည်
+//     public function __construct(ProductRepositoryInterface $productRepo) {
+//         $this->productRepo = $productRepo;
+//     }
+
+//     public function index() {
+//         $products = $this->productRepo->getAll();
+//         return view('products.index', compact('products'));
+//     }
+
+//     public function store(Request $request) {
+//         $this->productRepo->store($request->all());
+//         return redirect()->back();
+//     }
+// }
